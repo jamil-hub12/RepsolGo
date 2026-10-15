@@ -19,25 +19,24 @@ export default function ForgotPasswordScreen() {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [sent, setSent] = useState(false)
 
   async function handleSend() {
-    if (!email) {
+    const clean = email.trim().toLowerCase()
+    if (!clean) {
       setError('Ingresa tu email')
       return
     }
-    if (!/\S+@\S+\.\S+/.test(email)) {
+    if (!/\S+@\S+\.\S+/.test(clean)) {
       setError('Email inválido')
       return
     }
     setError('')
     setLoading(true)
     try {
-      await AuthService.sendPasswordReset(email)
-      setSent(true)
-      setTimeout(() => {
-        router.push('/(auth)/reset-password')
-      }, 1200)
+      await AuthService.sendPasswordReset(clean)
+      router.push({ pathname: '/(auth)/reset-password', params: { email: clean } })
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'No se pudo enviar el código.')
     } finally {
       setLoading(false)
     }
@@ -63,37 +62,26 @@ export default function ForgotPasswordScreen() {
             Ingresa tu email y te enviaremos un código para restablecer tu contraseña.
           </Text>
 
-          {sent ? (
-            <View style={styles.successCard}>
-              <Text style={styles.successIcon}>✅</Text>
-              <Text style={styles.successText}>
-                Código enviado a {email}. Redirigiendo...
-              </Text>
-            </View>
-          ) : (
-            <>
-              <Input
-                label="Email"
-                value={email}
-                onChangeText={text => {
-                  setEmail(text)
-                  setError('')
-                }}
-                placeholder="tu@email.com"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                error={error}
-              />
+          <Input
+            label="Email"
+            value={email}
+            onChangeText={text => {
+              setEmail(text)
+              setError('')
+            }}
+            placeholder="tu@email.com"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            error={error}
+          />
 
-              <Button
-                label="Enviar código"
-                onPress={handleSend}
-                loading={loading}
-                fullWidth
-                style={styles.sendBtn}
-              />
-            </>
-          )}
+          <Button
+            label="Enviar código"
+            onPress={handleSend}
+            loading={loading}
+            fullWidth
+            style={styles.sendBtn}
+          />
 
           <View style={styles.loginRow}>
             <Text style={styles.loginText}>¿La recordaste? </Text>
@@ -163,23 +151,6 @@ const styles = StyleSheet.create({
   },
   sendBtn: {
     marginTop: 8,
-  },
-  successCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#DCFCE7',
-    padding: 16,
-    borderRadius: 12,
-    gap: 12,
-  },
-  successIcon: {
-    fontSize: 20,
-  },
-  successText: {
-    flex: 1,
-    fontSize: 14,
-    color: '#15803D',
-    fontWeight: '500',
   },
   loginRow: {
     flexDirection: 'row',
