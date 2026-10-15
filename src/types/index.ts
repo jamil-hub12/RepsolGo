@@ -1,4 +1,4 @@
-export type UserRole = 'cliente' | 'operario'
+export type UserRole = 'cliente' | 'repartidor' | 'operador' | 'supervisor'
 
 export type NivelFidelizacion = 'Bronce' | 'Plata' | 'Oro' | 'Platino' | 'Diamante'
 

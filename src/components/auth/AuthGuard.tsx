@@ -7,8 +7,12 @@ interface AuthGuardProps {
 }
 
 export function AuthGuard({ children }: AuthGuardProps) {
+  const isHydrated = useAuthStore(state => state.isHydrated)
   const isAuthenticated = useAuthStore(state => state.isAuthenticated)
-  if (!isAuthenticated) {
+  const isLocked = useAuthStore(state => state.isLocked)
+
+  if (!isHydrated) return null
+  if (!isAuthenticated || isLocked) {
     return <Redirect href="/(auth)/login" />
   }
   return <>{children}</>
