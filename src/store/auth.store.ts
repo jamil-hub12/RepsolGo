@@ -86,12 +86,19 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     })
   },
 
+  // Actualiza la sesión y guarda los cambios de perfil en la cuenta
+  // para que no se pierdan al cerrar sesión y volver a entrar.
   updateUser: data => {
     const currentUser = get().user
     if (currentUser) {
       const updated = { ...currentUser, ...data }
       set({ user: updated })
       SecureStore.setItemAsync(KEYS.user, JSON.stringify(updated)).catch(console.error)
+      AuthService.updateProfile(currentUser.email, {
+        nombre: data.nombre,
+        telefono: data.telefono,
+        ...('avatar' in data ? { avatar: data.avatar } : {}),
+      }).catch(console.error)
     }
   },
 
