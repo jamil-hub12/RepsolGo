@@ -22,18 +22,10 @@ function StarIcon({ color }: { color: ColorValue }) {
   )
 }
 
-function CameraIcon({ color }: { color: ColorValue }) {
-  return (
-    <View style={[tabIconStyles.scanCircle, { backgroundColor: color === Colors.orange ? Colors.orange : '#374151' }]}>
-      <Text style={tabIconStyles.scanText}>⊙</Text>
-    </View>
-  )
-}
-
-function TrophyIcon({ color }: { color: ColorValue }) {
+function DeliveryIcon({ color }: { color: ColorValue }) {
   return (
     <View style={tabIconStyles.container}>
-      <Text style={[tabIconStyles.emoji, { color }]}>🏆</Text>
+      <Text style={[tabIconStyles.emoji, { color }]}>🛵</Text>
     </View>
   )
 }
@@ -102,10 +94,10 @@ export default function AppLayout() {
           }}
         />
         <Tabs.Screen
-          name="retos"
+          name="delivery"
           options={{
-            title: 'Retos',
-            tabBarIcon: ({ color }) => <TrophyIcon color={color} />,
+            title: 'Delivery',
+            tabBarIcon: ({ color }) => <DeliveryIcon color={color} />,
           }}
         />
         <Tabs.Screen
@@ -115,6 +107,8 @@ export default function AppLayout() {
             tabBarIcon: ({ color }) => <UserIcon color={color} />,
           }}
         />
+        {/* Retos sigue existiendo, pero fuera de la barra: se abre desde Perfil. */}
+        <Tabs.Screen name="retos" options={{ href: null }} />
       </Tabs>
     </AuthGuard>
   )
@@ -154,17 +148,6 @@ const tabIconStyles = StyleSheet.create({
     height: 8,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
-  },
-  scanCircle: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  scanText: {
-    fontSize: 16,
-    color: Colors.white,
   },
   scanWrapper: {
     marginTop: -16,

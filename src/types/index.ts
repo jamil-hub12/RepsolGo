@@ -72,3 +72,36 @@ export interface Badge {
   ganado: boolean
   color?: string
 }
+
+// ---------- Delivery de GLP ----------
+
+export type TamanoBalon = 5 | 10 | 15 | 45
+
+export type MetodoPago = 'yape' | 'plin' | 'tarjeta'
+
+export type EstadoPedido = 'aceptado' | 'en_camino' | 'entregado'
+
+export interface BalonGlp {
+  id: string
+  tamano: TamanoBalon
+  nombre: string
+  descripcion: string
+  precio: number
+  icono: string
+}
+
+export interface Pedido {
+  id: string
+  clienteId: string
+  fecha: string
+  balon: BalonGlp
+  cantidad: number
+  direccion: string
+  referencia?: string
+  metodoPago: MetodoPago
+  subtotal: number
+  envio: number
+  total: number
+  estado: EstadoPedido
+  repartidor: string
+}

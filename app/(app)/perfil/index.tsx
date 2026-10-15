@@ -141,6 +141,7 @@ export default function PerfilScreen() {
             <MenuItem icon="✏️" label="Editar perfil" onPress={() => router.push('/(app)/perfil/editar')} />
             <MenuItem icon="⛽" label="Mis cargas" onPress={soon} />
             <MenuItem icon="⭐" label="Mis favoritos" onPress={soon} />
+            <MenuItem icon="🏆" label="Retos y logros" onPress={() => router.push('/(app)/retos')} />
           </View>
         </View>
 
