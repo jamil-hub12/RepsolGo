@@ -1,0 +1,418 @@
+diff --git a/README.md b/README.md
+index f966e1d..1245c70 100644
+--- a/README.md
++++ b/README.md
+@@ -74,11 +74,12 @@ src/
+ 
+ ## Stack tecnológico
+ 
+-- **Expo SDK 51** + Expo Router 3
+-- **React Native 0.74** + TypeScript
++- **Expo SDK 57** + Expo Router 57
++- **React Native 0.86** + React 19 + TypeScript
+ - **Zustand** — estado global de auth
+ - **expo-secure-store** — persistencia del token
+ - **react-native-maps** — mapa de grifos
++- **react-native-svg** — íconos del marcador del mapa
+ - **expo-camera** — escáner de boletas
+ - **expo-image-picker** — foto de perfil
+ - **@tanstack/react-query** — gestión de datos async
+diff --git a/app/(app)/_layout.tsx b/app/(app)/_layout.tsx
+index 1876728..26b13dc 100644
+--- a/app/(app)/_layout.tsx
++++ b/app/(app)/_layout.tsx
+@@ -1,10 +1,10 @@
+ import React from 'react'
+ import { Tabs } from 'expo-router'
+-import { View, Text, StyleSheet } from 'react-native'
++import { View, Text, StyleSheet, ColorValue } from 'react-native'
+ import { Colors } from '../../src/constants/colors'
+ import { AuthGuard } from '../../src/components/auth/AuthGuard'
+ 
+-function MapIcon({ color }: { color: string }) {
++function MapIcon({ color }: { color: ColorValue }) {
+   return (
+     <View style={tabIconStyles.container}>
+       <View style={[tabIconStyles.mapBody, { borderColor: color }]}>
+@@ -14,7 +14,7 @@ function MapIcon({ color }: { color: string }) {
+   )
+ }
+ 
+-function StarIcon({ color }: { color: string }) {
++function StarIcon({ color }: { color: ColorValue }) {
+   return (
+     <View style={tabIconStyles.container}>
+       <Text style={[tabIconStyles.emoji, { color }]}>⭐</Text>
+@@ -22,7 +22,7 @@ function StarIcon({ color }: { color: string }) {
+   )
+ }
+ 
+-function CameraIcon({ color }: { color: string }) {
++function CameraIcon({ color }: { color: ColorValue }) {
+   return (
+     <View style={[tabIconStyles.scanCircle, { backgroundColor: color === Colors.orange ? Colors.orange : '#374151' }]}>
+       <Text style={tabIconStyles.scanText}>⊙</Text>
+@@ -30,7 +30,7 @@ function CameraIcon({ color }: { color: string }) {
+   )
+ }
+ 
+-function TrophyIcon({ color }: { color: string }) {
++function TrophyIcon({ color }: { color: ColorValue }) {
+   return (
+     <View style={tabIconStyles.container}>
+       <Text style={[tabIconStyles.emoji, { color }]}>🏆</Text>
+@@ -38,7 +38,7 @@ function TrophyIcon({ color }: { color: string }) {
+   )
+ }
+ 
+-function UserIcon({ color }: { color: string }) {
++function UserIcon({ color }: { color: ColorValue }) {
+   return (
+     <View style={tabIconStyles.container}>
+       <View style={[tabIconStyles.userHead, { backgroundColor: color }]} />
+diff --git a/app/(app)/mapa.tsx b/app/(app)/mapa.tsx
+index e3254c5..0c7ddb9 100644
+--- a/app/(app)/mapa.tsx
++++ b/app/(app)/mapa.tsx
+@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
+     flex: 1,
+   },
+   map: {
+-    ...StyleSheet.absoluteFillObject,
++    ...StyleSheet.absoluteFill,
+   },
+   searchOverlay: {
+     position: 'absolute',
+diff --git a/app/(app)/retos.tsx b/app/(app)/retos.tsx
+index 94b1311..a9bccb9 100644
+--- a/app/(app)/retos.tsx
++++ b/app/(app)/retos.tsx
+@@ -239,7 +239,6 @@ const styles = StyleSheet.create({
+     marginBottom: 20,
+   },
+   carbonCard: {
+-    backgroundColor: Colors.white,
+     borderRadius: 16,
+     padding: 16,
+     borderWidth: 1.5,
+diff --git a/assets/images/adaptive-icon.png b/assets/images/adaptive-icon.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..f264fdcb51e8f23ba2e094d3c3dc8a15d08fe74a
+GIT binary patch
+literal 6845
+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
+I&my<|6GU8Yp#T5?
+
+literal 0
+HcmV?d00001
+
+diff --git a/assets/images/favicon.png b/assets/images/favicon.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..c2fcacfeb4def285d4942f5662563b393f354dc3
+GIT binary patch
+literal 734
+zcmV<40wMj0P)<h;3K|Lk000e1NJLTq001xm001xu0ssI2*kEqZ0007|Nkl<Zc%1E*
+z&rcIU6vw}BW@{~#v`snC7MhUQ7?gU{7)?Yy7>;=1AMl2Tc+meqZyqFi!JGOQ7!zXf
+zU`UMIsrZu+S^^26YqgZt?#%O2Blv@zDGEL8=e%#`vu}3ZdrMCCJlYAd-vYl92>B5R
+z`4I^D5eWGa2>H==Le4JZJtk-Z0{{phb_DN_kf#KIp3Yi-d?OvL6R=zjzi~T?l?WJ8
+zYT7d)&7?IArrpte>0HW9MjFkN*Klj0>6Q4sLeJDvk_1b#&KB9uLy9RP_01FWR|ZOs
+z!%)E1O$m_DiYDgLH)e8`hLn~kXeXqZ4hsF~LSZ<!25-B{wp9TKlMBg_sr-f~g-xF9
+zZkg6}>*R;w+!`8xw*kOF14DfuZ=ZU{+V0pagghnArrptjC3uDbxZJ;dF}tpm#V!_)
+z5@9S~bR6C(H(Ozl#I<};5Su5-R7h#c9I6ebTqxtU0VtgAF89SYm2nX;6=J5N@r^{p
+zGfhu34AHR4Co157Ed-`iwBAamA!MTU{~!dkR(Wj$jfIF;st2I$br{Rl@Qy{IB_Sey
+z{W)5$Id<<$sMbZnjl#HIn+i$6rLU3cl{lo0kig7pY`)xK-astAA!dvhdbJ{pBr)#H
+zW|b!M2n!)8^|Phq{kgR1h!DcVx7|+`yQH-E^z3e#5PW?mH@T2R$nWxm@VuB9dvOFd
+z3AGafAc!jsIWm=>n9VQ&&Tm=-NI>AhT<X%(<L)=ds@0=~c?f`FVogKY^{e^PneK9D
+z*lTJrDs}mCHFkHl_wiyE5%yw0Lvw2=B|v;Qws|a3$@~~$Uww+c|I)#lS{`9r6#A*9
+z2~5q-Kn!9jjN8PY*wtSL0ghnvDr`dA{g(woegr~(1VVlULVg57ezcv?cgyYXT08AX
+Q1poj507*qoM6N<$f~6HyJOBUy
+
+literal 0
+HcmV?d00001
+
+diff --git a/assets/images/icon.png b/assets/images/icon.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..f264fdcb51e8f23ba2e094d3c3dc8a15d08fe74a
+GIT binary patch
+literal 6845
+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
+I&my<|6GU8Yp#T5?
+
+literal 0
+HcmV?d00001
+
+diff --git a/assets/images/splash.png b/assets/images/splash.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..f264fdcb51e8f23ba2e094d3c3dc8a15d08fe74a
+GIT binary patch
+literal 6845
+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
+I&my<|6GU8Yp#T5?
+
+literal 0
+HcmV?d00001
+
+diff --git a/babel.config.js b/babel.config.js
+deleted file mode 100644
+index d872de3..0000000
+--- a/babel.config.js
++++ /dev/null
+@@ -1,7 +0,0 @@
+-module.exports = function (api) {
+-  api.cache(true);
+-  return {
+-    presets: ['babel-preset-expo'],
+-    plugins: ['react-native-reanimated/plugin'],
+-  };
+-};
+diff --git a/package.json b/package.json
+index 426e77c..9417d6d 100644
+--- a/package.json
++++ b/package.json
+@@ -10,44 +10,41 @@
+     "lint": "eslint ."
+   },
+   "dependencies": {
+-    "expo": "~51.0.28",
+-    "expo-router": "~3.5.23",
+-    "expo-status-bar": "~1.12.1",
+-    "expo-camera": "~15.0.16",
+-    "expo-image-picker": "~15.0.7",
+-    "expo-location": "~17.0.1",
+-    "expo-secure-store": "~13.0.2",
+-    "expo-splash-screen": "~0.27.5",
+-    "expo-constants": "~16.0.2",
+-    "expo-font": "~12.0.10",
+-    "react": "18.2.0",
+-    "react-native": "0.74.5",
+-    "react-native-maps": "1.14.0",
+-    "react-native-safe-area-context": "4.10.5",
+-    "react-native-screens": "3.31.1",
+-    "@react-navigation/native": "^6.1.17",
+-    "@react-navigation/bottom-tabs": "^6.5.20",
+-    "@react-navigation/stack": "^6.3.29",
+-    "react-native-gesture-handler": "~2.16.1",
+-    "react-native-reanimated": "~3.10.1",
++    "@hookform/resolvers": "^3.9.0",
++    "@shopify/flash-list": "2.0.2",
+     "@tanstack/react-query": "^5.51.23",
+     "axios": "^1.7.3",
+-    "zustand": "^4.5.4",
+-    "@shopify/flash-list": "1.6.4",
+     "date-fns": "^3.6.0",
++    "expo": "^57.0.29",
++    "expo-camera": "~57.0.6",
++    "expo-constants": "~57.0.22",
++    "expo-font": "~57.0.4",
++    "expo-image-picker": "~57.0.20",
++    "expo-linking": "~57.0.13",
++    "expo-location": "~57.0.21",
++    "expo-router": "~57.0.27",
++    "expo-secure-store": "~57.0.4",
++    "expo-splash-screen": "~57.0.10",
++    "expo-status-bar": "~57.0.1",
++    "react": "19.2.3",
++    "react-dom": "19.2.3",
+     "react-hook-form": "^7.52.2",
++    "react-native": "0.86.3",
++    "react-native-gesture-handler": "~2.32.0",
++    "react-native-maps": "1.27.2",
++    "react-native-reanimated": "4.5.1",
++    "react-native-safe-area-context": "~5.7.0",
++    "react-native-screens": "~4.26.0",
++    "react-native-svg": "15.15.4",
++    "react-native-worklets": "0.10.1",
+     "zod": "^3.23.8",
+-    "@hookform/resolvers": "^3.9.0"
+-  },
+-  "overrides": {
+-    "ajv": "^8.12.0"
++    "zustand": "^4.5.4"
+   },
+   "devDependencies": {
+     "@babel/core": "^7.24.0",
+-    "@types/react": "~18.2.79",
+-    "@types/react-native": "~0.73.0",
++    "@types/react": "~19.2.0",
+     "eslint": "^8.57.0",
+-    "eslint-config-expo": "~7.0.0",
+-    "typescript": "~5.3.3"
++    "eslint-config-expo": "~57.0.2",
++    "typescript": "~5.9.2"
+   }
+ }
+diff --git a/src/components/puntos/PuntosHeroCard.tsx b/src/components/puntos/PuntosHeroCard.tsx
+index e770e6a..e96afba 100644
+--- a/src/components/puntos/PuntosHeroCard.tsx
++++ b/src/components/puntos/PuntosHeroCard.tsx
+@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
+     marginBottom: 24,
+   },
+   overlay: {
+-    ...StyleSheet.absoluteFillObject,
++    ...StyleSheet.absoluteFill,
+     backgroundColor: Colors.navyMid,
+     opacity: 0.5,
+   },

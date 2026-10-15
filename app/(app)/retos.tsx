@@ -239,7 +239,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   carbonCard: {
-    backgroundColor: Colors.white,
     borderRadius: 16,
     padding: 16,
     borderWidth: 1.5,

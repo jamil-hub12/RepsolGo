@@ -1,10 +1,10 @@
 import React from 'react'
 import { Tabs } from 'expo-router'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ColorValue } from 'react-native'
 import { Colors } from '../../src/constants/colors'
 import { AuthGuard } from '../../src/components/auth/AuthGuard'
 
-function MapIcon({ color }: { color: string }) {
+function MapIcon({ color }: { color: ColorValue }) {
   return (
     <View style={tabIconStyles.container}>
       <View style={[tabIconStyles.mapBody, { borderColor: color }]}>
@@ -14,7 +14,7 @@ function MapIcon({ color }: { color: string }) {
   )
 }
 
-function StarIcon({ color }: { color: string }) {
+function StarIcon({ color }: { color: ColorValue }) {
   return (
     <View style={tabIconStyles.container}>
       <Text style={[tabIconStyles.emoji, { color }]}>⭐</Text>
@@ -22,7 +22,7 @@ function StarIcon({ color }: { color: string }) {
   )
 }
 
-function CameraIcon({ color }: { color: string }) {
+function CameraIcon({ color }: { color: ColorValue }) {
   return (
     <View style={[tabIconStyles.scanCircle, { backgroundColor: color === Colors.orange ? Colors.orange : '#374151' }]}>
       <Text style={tabIconStyles.scanText}>⊙</Text>
@@ -30,7 +30,7 @@ function CameraIcon({ color }: { color: string }) {
   )
 }
 
-function TrophyIcon({ color }: { color: string }) {
+function TrophyIcon({ color }: { color: ColorValue }) {
   return (
     <View style={tabIconStyles.container}>
       <Text style={[tabIconStyles.emoji, { color }]}>🏆</Text>
@@ -38,7 +38,7 @@ function TrophyIcon({ color }: { color: string }) {
   )
 }
 
-function UserIcon({ color }: { color: string }) {
+function UserIcon({ color }: { color: ColorValue }) {
   return (
     <View style={tabIconStyles.container}>
       <View style={[tabIconStyles.userHead, { backgroundColor: color }]} />

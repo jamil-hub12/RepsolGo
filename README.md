@@ -74,11 +74,12 @@ src/
 
 ## Stack tecnológico
 
-- **Expo SDK 51** + Expo Router 3
-- **React Native 0.74** + TypeScript
+- **Expo SDK 57** + Expo Router 57
+- **React Native 0.86** + React 19 + TypeScript
 - **Zustand** — estado global de auth
 - **expo-secure-store** — persistencia del token
 - **react-native-maps** — mapa de grifos
+- **react-native-svg** — íconos del marcador del mapa
 - **expo-camera** — escáner de boletas
 - **expo-image-picker** — foto de perfil
 - **@tanstack/react-query** — gestión de datos async

@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   overlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: Colors.navyMid,
     opacity: 0.5,
   },
